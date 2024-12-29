@@ -1,0 +1,39 @@
+#spring配置
+spring:
+  application:
+    name:web-ai-management
+  #配置数据库的连接配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/interface
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: admin123
+  servlet:
+    multipart:
+      #      单个文件最大大小
+      max-file-size: 10MB
+      #      单次请求最大大小
+      max-request-size: 100MB
+
+# mybatis的配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 指定XML映射文件的位置
+    # mapper-locations: classpath:mapper/*.xml
+    #    开启了下划线转驼峰
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.yupi.springbootinit.model.entity
+
+#配置事务管理日志级别
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: debug
+
+
+#阿里云oss配置
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: kola-java-web
+    region: cn-beijing
