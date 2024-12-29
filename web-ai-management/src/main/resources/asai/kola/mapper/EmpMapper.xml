@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="asai.kola.mapper.EmpMapper">
+    <!-- 根据ID更新员工信息 -->
     <update id="updateByIds">
         UPDATE emp
         <set>
@@ -21,7 +22,7 @@
         where id = #{id};
     </update>
 
-
+    <!-- 根据ID列表删除员工信息 -->
     <delete id="deletByIds">
         delete from emp where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
@@ -29,8 +30,7 @@
         </foreach>
     </delete>
 
-
-    <!--  分页查询员工信息-->
+    <!-- 分页查询员工信息 -->
     <select id="list" resultType="asai.kola.pojo.Emp">
         SELECT e.*, d.name AS deptName
         FROM emp e
@@ -49,8 +49,7 @@
         ORDER BY e.update_time DESC
     </select>
 
-
-    <!--    通过id查询员工信息以及工作经历-->
+    <!-- 通过ID查询员工信息以及工作经历 -->
     <resultMap id="getById" type="asai.kola.pojo.Emp">
         <id column="id" property="id"/>
         <result column="username" property="username"></result>
@@ -73,7 +72,6 @@
             <result column="ee_end" property="end"></result>
             <result column="ee_emp_id" property="empId"></result>
         </collection>
-
     </resultMap>
     <select id="getById" resultMap="getById">
         select e.*,
@@ -88,8 +86,7 @@
         where e.id = #{id};
     </select>
 
-
-    <!--    统计职位人数-->
+    <!-- 统计职位人数 -->
     <select id="reportNum" resultType="java.util.Map">
         select (case job
                     when 1 then '班主任'
@@ -102,6 +99,14 @@
         from emp
         group by job
         order by num;
+    </select>
+
+    <!-- 统计员工性别比例 -->
+    <select id="reportGender" resultType="java.util.Map">
+        select if(gender = 1, '男性', '女性') name,
+               count(*)                       value
+        from emp
+        group by gender
     </select>
 
 </mapper>

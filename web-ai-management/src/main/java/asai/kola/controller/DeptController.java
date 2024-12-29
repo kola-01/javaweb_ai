@@ -1,6 +1,5 @@
 package asai.kola.controller;
 
-
 import asai.kola.pojo.Dept;
 import asai.kola.pojo.Result;
 import asai.kola.service.Deptservice;
@@ -93,4 +92,3 @@ public class DeptController {
         return Result.success();
     }
 }
-

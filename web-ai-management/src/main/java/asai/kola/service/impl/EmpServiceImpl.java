@@ -25,18 +25,7 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     EmpLogService empLogService;
 
-
-    //-------------------原始的分页实现-------------------
-    //    @Override
-    //    public PageResult<Emp> getList(Integer page, Integer pageSize) {
-    //        long total = empMapper.count();
-    //        int start = (page - 1) * pageSize;
-    //        System.out.println(start+" "+pageSize);
-    //        List<Emp> rows = empMapper.list(start, pageSize);
-    //        return new PageResult<Emp>(total, rows);
-    //    }
-
-    //    ----------------使用分页插件PageHelper来实现分页----------------
+    // 使用分页插件PageHelper来实现分页
     @Override
     public PageResult<Emp> getList(EmpQueryParam Param) {
         PageHelper.startPage(Param.getPage(), Param.getPageSize());
@@ -45,7 +34,8 @@ public class EmpServiceImpl implements EmpService {
         return new PageResult<Emp>(p.getTotal(), p.getResult());
     }
 
-    @Transactional(rollbackFor = {Exception.class}) //事务管理
+    // 保存员工信息，事务管理
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public void save(Emp emp) {
         try {
@@ -67,7 +57,7 @@ public class EmpServiceImpl implements EmpService {
         }
     }
 
-
+    // 根据ID列表删除员工信息，事务管理
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public void delet(List<Integer> ids) {
@@ -75,13 +65,14 @@ public class EmpServiceImpl implements EmpService {
         empExprMapper.deletByEmpIds(ids);
     }
 
+    // 根据ID获取员工信息
     @Override
     public Emp getById(Integer id) {
         Emp emp = empMapper.getById(id);
         return emp;
     }
 
-
+    // 更新员工信息，事务管理
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public void update(Emp emp) {
@@ -94,5 +85,11 @@ public class EmpServiceImpl implements EmpService {
             exprList.forEach(empExpr -> empExpr.setEmpId(emp.getId()));
             empExprMapper.insrtBatch(exprList);
         }
+    }
+
+    // 获取所有员工信息
+    @Override
+    public List<Emp> list() {
+        return empMapper.list(null);
     }
 }

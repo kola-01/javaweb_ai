@@ -9,11 +9,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现报告服务接口的类，用于获取员工相关数据报告
+ */
 @Service
 public class ReportServiceImpl implements ReportService {
     @Autowired
     private EmpMapper empMapper;
 
+    /**
+     * 获取员工职位数据的方法，返回一个包含职位和数量的报告对象
+     */
     @Override
     public Report getEmpJobData() {
         List<Map<String, Object>> maps = empMapper.reportNum();
@@ -21,4 +27,14 @@ public class ReportServiceImpl implements ReportService {
         List<Object> dataList = maps.stream().map(data -> data.get("num")).toList();
         return new Report(jobList, dataList);
     }
+
+    /**
+     * 获取员工性别数据的方法，返回一个包含性别和数量的Map列表
+     */
+    @Override
+    public List<Map<String, Object>> getEmpGenderData() {
+        List<Map<String, Object>> list = empMapper.reportGender();
+        return list;
+    }
 }
+

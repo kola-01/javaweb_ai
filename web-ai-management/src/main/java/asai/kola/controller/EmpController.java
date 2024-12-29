@@ -18,9 +18,9 @@ public class EmpController {
     private EmpService empService;
 
     /**
-     * 分页查询数据
+     * 分页查询员工数据
      *
-     * @return 分页查询数据
+     * @return 分页查询结果
      */
     @GetMapping
     private Result page(EmpQueryParam empQueryParam) {
@@ -33,9 +33,9 @@ public class EmpController {
     }
 
     /**
-     * 添加员工
+     * 添加新员工
      *
-     * @return 添加员工
+     * @return 添加结果
      */
     @PostMapping
     private Result save(@RequestBody Emp emp) {
@@ -43,6 +43,11 @@ public class EmpController {
         return Result.success();
     }
 
+    /**
+     * 批量删除员工
+     *
+     * @return 删除结果
+     */
     @DeleteMapping
     private Result delete(@RequestParam List<Integer> ids) {
         log.info("批量删除员工：{}", ids);
@@ -50,6 +55,11 @@ public class EmpController {
         return Result.success();
     }
 
+    /**
+     * 通过ID查询员工信息
+     *
+     * @return 查询结果
+     */
     @GetMapping("/{id}")
     private Result get(@PathVariable Integer id) {
         log.info("通过Id查询员工：{}", id);
@@ -57,10 +67,27 @@ public class EmpController {
         return Result.success(epm);
     }
 
+    /**
+     * 更新员工信息
+     *
+     * @return 更新结果
+     */
     @PutMapping
     private Result update(@RequestBody Emp emp) {
         log.info("修改员工信息：{}", emp);
         empService.update(emp);
         return Result.success();
+    }
+
+    /**
+     * 查询所有员工信息
+     *
+     * @return 查询结果
+     */
+    @GetMapping("/list")
+    private Result list() {
+        log.info("查询所有员工");
+        List<Emp> list = empService.list();
+        return Result.success(list);
     }
 }

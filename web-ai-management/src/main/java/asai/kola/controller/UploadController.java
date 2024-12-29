@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-
+// 文件上传控制器
 @RestController
 public class UploadController {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UploadController.class);
