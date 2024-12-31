@@ -2,6 +2,7 @@ package asai.kola.service;
 
 import asai.kola.pojo.Emp;
 import asai.kola.pojo.EmpQueryParam;
+import asai.kola.pojo.LoginInfo;
 import asai.kola.pojo.PageResult;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface EmpService {
 
     // 查询所有员工信息
     List<Emp> list();
+
+    LoginInfo login(Emp emp);
 }

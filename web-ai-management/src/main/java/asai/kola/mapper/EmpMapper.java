@@ -83,4 +83,12 @@ public interface EmpMapper {
      */
     @MapKey("name")
     List<Map<String, Object>> reportGender();
+
+    @MapKey("name")
+    List<Map<String, Object>>  reportStudentCount();
+
+    @MapKey("name")
+    List<Map<String, Object>> reportStudentDegree();
+
+    Emp selectByUsernameAndPassword(Emp emp);
 }

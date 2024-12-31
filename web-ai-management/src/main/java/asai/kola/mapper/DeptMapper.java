@@ -29,4 +29,6 @@ public interface DeptMapper {
     @Update("UPDATE dept SET name = #{name}, update_time = #{updateTime} WHERE id = #{id}")
     void update(Dept dept);
 
+    @Select("SELECT  COUNT(e.id) AS '员工人数' FROM  dept d  LEFT JOIN  emp e ON d.id = e.dept_id where d.id = #{id} GROUP BY d.name;")
+    Integer selectById(Integer id);
 }

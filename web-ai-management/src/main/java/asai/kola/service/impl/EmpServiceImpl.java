@@ -7,6 +7,7 @@ import asai.kola.service.EmpLogService;
 import asai.kola.service.EmpService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,8 @@ import java.util.List;
 
 @Service
 public class EmpServiceImpl implements EmpService {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(EmpServiceImpl.class);
     @Autowired
     EmpMapper empMapper;
     @Autowired
@@ -91,5 +94,17 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public List<Emp> list() {
         return empMapper.list(null);
+    }
+
+    @Override
+    public LoginInfo login(Emp emp) {
+        // TODO: 实现登录逻辑
+        Emp e = empMapper.selectByUsernameAndPassword(emp);
+        if (e != null) {
+            log.info("登录成功:{}", e);
+            return new LoginInfo(e.getId(), e.getUsername(), e.getName(), " ");
+        } else {
+            return null;
+        }
     }
 }

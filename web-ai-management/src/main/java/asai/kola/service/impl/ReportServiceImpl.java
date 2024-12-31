@@ -2,6 +2,7 @@ package asai.kola.service.impl;
 
 import asai.kola.mapper.EmpMapper;
 import asai.kola.pojo.Report;
+import asai.kola.pojo.studentCountData;
 import asai.kola.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,20 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Map<String, Object>> getEmpGenderData() {
         List<Map<String, Object>> list = empMapper.reportGender();
+        return list;
+    }
+
+    @Override
+    public studentCountData getStudentCountData() {
+        List<Map<String, Object>> list = empMapper.reportStudentCount();
+        List<Object> clazzList = list.stream().map(data -> data.get("name")).toList();
+        List<Object> dataList = list.stream().map(data -> data.get("num")).toList();
+        return new studentCountData(clazzList, dataList);
+    }
+
+    @Override
+    public List<Map<String, Object>> getStudentDegreeData() {
+        List<Map<String, Object>> list = empMapper.reportStudentDegree();
         return list;
     }
 }

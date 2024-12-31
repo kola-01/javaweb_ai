@@ -108,5 +108,30 @@
         from emp
         group by gender
     </select>
+    <select id="reportStudentCount" resultType="java.util.Map">
+        select count(*) num, c.name
+        from clazz c
+                 left join student s on c.id = s.clazz_id
+        group by c.name;
+    </select>
+    <select id="reportStudentDegree" resultType="java.util.Map">
+        select (case degree
+                    when 1 then '初中'
+                    when 2 then '高中'
+                    when 3 then '大专'
+                    when 4 then '本科'
+                    when 5 then '硕士'
+                    when 6 then '博士'
+                    else '其他' end) name,
+               count(*)              value
+        from student
+        group by degree;
+    </select>
+    <select id="selectByUsernameAndPassword" resultType="asai.kola.pojo.Emp">
+        select id, username, name
+        from emp
+        where username = #{username}
+          and password = #{password}
+    </select>
 
 </mapper>

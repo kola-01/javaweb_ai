@@ -2,6 +2,7 @@ package asai.kola.controller;
 
 import asai.kola.pojo.Report;
 import asai.kola.pojo.Result;
+import asai.kola.pojo.studentCountData;
 import asai.kola.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,4 +38,18 @@ public class ReportController {
         return Result.success(list);
     }
 
+    @GetMapping("/studentCountData")
+    public Result getStudentCountData() {
+        log.info("获取学生统计数据");
+        studentCountData list = reportService.getStudentCountData();
+        log.info("学生统计数据：{}" ,list);
+        return Result.success(list);
+    }
+
+    @GetMapping("/studentDegreeData")
+    public Result getStudentDegreeData() {
+        log.info("获取学生学历统计数据");
+        List<Map<String, Object>> list = reportService.getStudentDegreeData();
+        return Result.success(list);
+    }
 }
