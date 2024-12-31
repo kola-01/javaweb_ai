@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="asai.kola.mapper.ClazzsMapper">
+    <!-- 插入班级信息 -->
+    <insert id="insert">
+        INSERT INTO clazz (name,room, master_id,subject, begin_date, end_date)
+        VALUES (#{name},#{room},#{masterId},#{subject},#{beginDate},#{endDate})
+    </insert>
+    <!-- 更新班级信息 -->
+    <update id="update">
+        UPDATE clazz
+        SET name       = #{name},
+            room       = #{room},
+            master_id  = #{masterId},
+            subject    = #{subject},
+            begin_date = #{beginDate},
+            end_date   = #{endDate}
+        WHERE id = #{id}
+    </update>
+    <!-- 根据ID删除班级 -->
+    <delete id="deleteById">
+        DELETE FROM clazz WHERE id = #{id}
+    </delete>
+
+    <!-- 获取班级列表，支持根据名称和日期范围查询，并按创建时间倒序排列 -->
+    <select id="getList" resultType="asai.kola.pojo.Clazz">
+        SELECT c.*,
+        e.name AS masterName,
+        e.job AS masterId
+        FROM clazz c
+        LEFT JOIN emp e ON c.master_id = e.id
+        <where>
+            <if test="name != null and name != ''">
+                AND c.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="begin != null and end != null">
+                AND c.begin_date BETWEEN #{begin} AND #{end}
+            </if>
+        </where>
+            <!--            按照班级创建时间倒叙排序 -->
+            ORDER BY c.update_time DESC
+</select>
+    <!-- 根据ID查询班级信息 -->
+    <select id="selectById" resultType="asai.kola.pojo.Clazz">
+        select * from clazz where id = #{id};
+    </select>
+    <!-- 根据班级ID查询学生信息 -->
+    <select id="selectstudentById" resultType="asai.kola.pojo.Student">
+         select s.* FROM student s left join clazz c  on c.id = s.clazz_id where c.id = #{id};
+    </select>
+    <!-- 获取所有班级信息 -->
+    <select id="allgetList" resultType="asai.kola.pojo.Clazz">
+        select *
+        from clazz;
+    </select>
+
+</mapper>
